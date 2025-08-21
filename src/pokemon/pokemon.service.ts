@@ -9,8 +9,8 @@ import { plainToInstance } from 'class-transformer';
 export class PokemonService {
     constructor(private readonly pokemonRepository: PokemonRepository) {}
     
-    async getAllPokemons(): Promise<PokemonDto[]> {
-        const pokemons = await this.pokemonRepository.findAll()
+    async getAllPokemons(page: number, limit: number): Promise<PokemonDto[]> {
+        const pokemons = await this.pokemonRepository.findAll(page, limit)
         return pokemons.map(pokemon => plainToInstance(PokemonDto, pokemon))
     }
 

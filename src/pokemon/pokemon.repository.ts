@@ -7,8 +7,11 @@ import { CreatePokemonDto } from "./dto/create-pokemon.dto";
 export class PokemonRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findAll(): Promise<Pokemon[]> {
-        return this.prisma.pokemon.findMany();
+    async findAll(page: number, limit: number): Promise<Pokemon[]> {
+        return this.prisma.pokemon.findMany({
+            skip: (page - 1) * limit,
+            take: limit
+        });
     }
 
     async findById(id: string): Promise<Pokemon | null> {

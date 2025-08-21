@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { Pokemon } from 'generated/prisma';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { PokemonService } from './pokemon.service';
@@ -9,8 +9,11 @@ export class PokemonController {
     constructor(private readonly pokemonService: PokemonService) {}
 
     @Get()
-    async getAllPokemons(): Promise<PokemonDto[]> {
-        return this.pokemonService.getAllPokemons()
+    async getAllPokemons(
+        @Query("page") page: number,
+        @Query("limit") limit: number,
+    ): Promise<PokemonDto[]> {
+        return this.pokemonService.getAllPokemons(page, limit)
     }
 
     @Post()
